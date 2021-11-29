@@ -15,12 +15,15 @@
  */
 class SymbolX {
   constructor() {}
+  // 存放每个模块的数据
   data = {};
+  // 存放模块和指纹的对应关系
   moduleMap = new Map();
   /**
+   * @param {string} module 模块
    * @param {symbol} symbolVal 模块标识
    * @param {any} identifyLabel 模块数据（理论上无类型限制，推荐json）
-   * @returns {array} 会返回当前库中，一共有哪些模块标识，方便后续根据模块标识获取库数据
+   * @returns {array} 会返回一个map结构，显示全部的模块（module）和其对应的指纹（Symbol）
    */
   setState(module, symbolVal, identifyLabel) {
     let { data, moduleMap } = this;
