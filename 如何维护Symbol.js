@@ -18,7 +18,7 @@ class SymbolX {
   // 存放每个模块的数据
   data = {};
   // 存放模块和指纹的对应关系
-  moduleMap = new Map();
+  moduleData = {};
   /**
    * @param {string} module 模块
    * @param {symbol} symbolVal 模块标识
@@ -26,17 +26,20 @@ class SymbolX {
    * @returns {array} 会返回一个map结构，显示全部的模块（module）和其对应的指纹（Symbol）
    */
   setState(module, symbolVal, identifyLabel) {
-    let { data, moduleMap } = this;
+    let { data, moduleData } = this;
+    for (let key in moduleData) {
+     if(key===module) throw('已有该模块，无法添加')
+    }
     data[symbolVal] = identifyLabel;
-    moduleMap.set(module, symbolVal);
-    return moduleMap;
+    moduleData[module] = symbolVal;
+    return moduleData;
   }
   /**
    * @param {symbol} symbolVal 模块标识
    * @returns 返回当前库标识对应的库数据
    */
   getState(module) {
-    let temp = this.moduleMap.get(module);
+    let temp = this.moduleData[module];
     return this.data[temp];
   }
 }
