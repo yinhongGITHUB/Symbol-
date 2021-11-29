@@ -37,8 +37,8 @@ class SymbolX {
     return moduleData;
   }
   /**
-   * @param {symbol} symbolVal 模块标识
-   * @returns 返回当前库标识对应的库数据
+   * @param {string} module 模块
+   * @returns 返回当前module对应的库数据
    */
   getState(module) {
     let temp = this.moduleData[module];
