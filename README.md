@@ -62,25 +62,13 @@ let list = {
 
 ```js
 /**
- * 1.该函数是什么，用来干嘛的？
- * 解决项目开发中，对象属性有可能重名的问题，而且重心在value上不在key值上时，可以调用该函数添加属性
+ * 问题背景？
+ * 假设现在有两个库（或多个库），他们的数据想要统一管理，但是单纯的合并，两个库的开发人员又担心出现变量重名，从而导致互相影响数据的难题
  *
- * 2.为什么要封装这个函数？
- * 让在项目中的你彻底避免担心对象属性重名的问题
+ * 如何合并？
+ * 此时就一定需要某个能够证明其身份的标识，就像人的身份证一样，去标记每一个库，Symbol是一个好的选择
  *
- * 3.如何使用？
- * 将你想赋值的对象和value值传入即可，函数会返回添加该value后的新对象，记得接收哦！！！
- *
- * 注意：不过很遗憾，该函数添加的对象是不可枚举的Object.keys()和for in无法访问 值得庆幸的是Object.getOwnPropertySymbols(obj)可以访问Symbol数据类型，Reflect.ownKeys可以访问当前属性上说有的key
- *
- * @param {object} obj 待改造的对象
- * @param {any} value 自定义的value值
- * @returns {object} 添加value后的新对象
+ * 如何维护Symbol？
+ * 详情请见
  */
-
-function neverRepetition(obj, value) {
-  let key = Symbol();
-  obj[key] = value;
-  return obj;
-}
 ```

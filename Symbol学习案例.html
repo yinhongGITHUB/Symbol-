@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        let a = Symbol()
+        let b = Symbol(23)
+        let c = Symbol(23)
+        console.log(a); // 23
+        console.log(b); // Symbol(23)
+        console.log(a == b); // false
+        console.log(a === b); // false
+        console.log(b == c); // false
+        console.log(b === c); // false 看来即使声明语句是一样的，创造出来的Symbol类型变量也不是相等的
+        // 在不比较类型的双等号条件下，a,b依旧不相等，而且控制台打印出来，也确实不是单纯的23
+        console.log('=================================================================================================')
+        let obj = {
+            null: "李四",
+            'age': '王五',
+            undefined: '赵六',
+        }
+        obj[Symbol(23)] = '张三'
+        console.log(obj); // {Symbol(23):'张三'}  看到这里是不是以为Symbol，哪有那么简单，继续往下看
+        console.log(JSON.stringify(obj)); // {"null": "李四"},(说明：对象在赋属性是自带一个隐式转换，可以把其他类型转换成字符串类型)连JSON.stringify都不能转换？
+        console.log(obj[Symbol(23)]); // undefined 神奇的地方开始了
+        console.log('=================================================================================================')
+        let sym = Symbol(1); // 采用表达式的方式进行赋值
+        obj[sym] = "foo";
+        console.log(sym);
+        console.log(sym in obj); // true 确实做为key值在对象中发挥作用
+        console.log(obj[sym]); // foo 
+        console.log(Object.keys(obj)); //  ['null', 'age', 'undefined'] 不会把sym打印出来，但是可以拿到值
+        console.log(Reflect.ownKeys(obj)); // ['null', 'age', 'undefined', Symbol(23), Symbol(1)]
+        console.log('=================================================================================================')
+        // 考虑到不同的库之间赋值，可能会有重名的现象,任何想赋值的key都用Symbol做一遍过滤(即可作为对象的而唯一key去使用)
+        let key = Symbol(2)
+        obj[key] = '这里是value1'
+        console.log(
+            obj); //{age: "王五",null: "李四",undefined: "赵六",Symbol(1): "foo",Symbol(2): "这里是value1",Symbol(23): "张三"}
+        console.log(obj[key]); // 这里是value1
+        /**
+         * 1.该函数是什么，用来干嘛的？
+         * 解决项目开发中，对象属性有可能重名的问题，而且重心在value上不在key值上时，可以调用该函数添加属性
+         *
+         * 2.为什么要封装这个函数？
+         * 让在项目中的你彻底避免担心对象属性重名的问题
+         *
+         * 3.如何使用？
+         * 将你想赋值的对象和value值传入即可，函数会返回添加该value后的新对象，记得接收哦！！！
+         *
+         * 注意：不过很遗憾，该函数添加的对象是不可枚举的Object.keys()和for in无法访问 值得庆幸的是Object.getOwnPropertySymbols(obj)可以访问Symbol数据类型，Reflect.ownKeys可以访问当前属性上说有的key
+         *
+         * @param {object} obj 待改造的对象
+         * @param {any} value 自定义的value值
+         * @returns {object} 添加value后的新对象
+         */
+        function neverRepetition(obj, value) {
+            let key = Symbol();
+            obj[key] = value;
+            return obj;
+        }
+        neverRepetition(obj, "哈哈哈哈")
+        neverRepetition(obj, "嘿嘿嘿")
+        console.log("让我看卡", obj);
+        console.log(Object.getOwnPropertySymbols(obj)); // [Symbol(23), Symbol(1), Symbol(2)]
+        console.log(Reflect.ownKeys(obj)); //  ['null', 'age', 'undefined', Symbol(23), Symbol(1), Symbol(2)]
+        console.log('=================================================================================================')
+        let d = Symbol(5)
+        console.log(typeof d); // symbol
+        console.log(typeof String(d)); // string
+        console.log('=================================================================================================')
+        let foo = Symbol.for('foo')
+        console.log(Symbol.keyFor(foo)); // foo
+        console.log(foo); // Symbol(foo)
+        let und = Symbol()
+        console.log(Symbol.keyFor(und)); // undefined
+        console.log(und); // Symbol()
+        /*
+            总结：Symbol.for()和Symbol.keyFor()都是在全局作用域创建Symbol数据类型的数据，而且
+            1.Symbol.for()创建的流程是先去全局里面搜索有没有当前key的symbol属性，没有就创建，有就拿出来
+            所以，两个完全一样的Symbol.for()是相等的，这点与Symbol()不同
+            
+            2.Symbol.keyFor 方法返回一个使用 Symbol.for 方法创建的 symbol 值的 key
+        */
+        console.log('=================================================================================================')
+        let e = new Symbol()
+        console.log(e); // Uncaught TypeError:Symbol is not a constructor
+    </script>
+</body>
+
+</html>
