@@ -47,5 +47,5 @@ let symbolObj = new SymbolX();
 
 // 测试区域=====================================================================
 let test = Symbol();
-console.log(symbolObj.setState("导航栏模块", test, [1, 2, 3])); // [["导航栏模块",Symbol()]]
+console.log(symbolObj.setState("导航栏模块", test, [1, 2, 3])); // {"导航栏模块",Symbol()}
 console.log(symbolObj.getState("导航栏模块")); // [1,2,3]
