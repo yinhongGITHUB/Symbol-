@@ -30,7 +30,9 @@ class SymbolX {
     for (let key in moduleData) {
       if (key === module) throw "已有该模块，无法添加";
     }
+    // symbol对应数据
     data[symbolVal] = identifyLabel;
+    // 模块对应symbol
     moduleData[module] = symbolVal;
     return moduleData;
   }
