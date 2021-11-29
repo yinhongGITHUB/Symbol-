@@ -3,7 +3,7 @@
  *
  *  注：在js里面无法写类型判断，在ts里面Symbol不能作为key使用
  */
-class symbolX {
+class SymbolX {
   constructor() {}
   data = {};
   /**
@@ -12,8 +12,9 @@ class symbolX {
    * @returns 会返回当前库中，一共有哪些库标识，方便后续根据库标识获取库数据
    */
   setState(symbolVal, identifyLabel) {
-    this.data[symbolVal] = identifyLabel;
-    return Reflect.ownKeys(this.data);
+    let data = this.data;
+    data[symbolVal] = identifyLabel;
+    return Reflect.ownKeys(data);
   }
   /**
    * @param {symbol} symbolVal 库标识
@@ -23,7 +24,7 @@ class symbolX {
     return this.data[symbolVal];
   }
 }
-let symbolObj = new symbolX();
+export let symbolObj = new SymbolX();
 
 // 测试区域=====================================================================
 let test = Symbol();
