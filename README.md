@@ -69,6 +69,7 @@ let list = {
  * 此时就一定需要某个能够证明其身份的标识，就像人的身份证一样，去标记每一个库，Symbol是一个好的选择
  *
  * 如何维护Symbol？
- * 详情请见
+ * 详情请见:
+https://github.com/yinhongGITHUB/Symbol-/blob/master/%E5%A6%82%E4%BD%95%E7%BB%B4%E6%8A%A4Symbol.js
  */
 ```
