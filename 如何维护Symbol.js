@@ -28,7 +28,7 @@ class SymbolX {
   setState(module, symbolVal, identifyLabel) {
     let { data, moduleData } = this;
     for (let key in moduleData) {
-     if(key===module) throw('已有该模块，无法添加')
+      if (key === module) throw "已有该模块，无法添加";
     }
     data[symbolVal] = identifyLabel;
     moduleData[module] = symbolVal;
